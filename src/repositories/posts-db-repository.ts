@@ -10,7 +10,7 @@ import {
   Pagination,
   PostsType,
   ReturnObjCommentType,
-  ReturnObjPostType,
+  ReturnObjPostType, SortOrder,
   UserType
 } from "../types/types";
 import {MyModelComments} from "../mongoose/CommentsSchemaModel";
@@ -22,8 +22,8 @@ import {MyModelBlogs} from "../mongoose/BlogsSchemaModel";
 
 export class PostsRepository {
 
-  async findPosts(pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null, currentUser: UserType | null): Promise<Pagination> {
-    const direction = sortDirection === "desc" ? 1 : -1;
+  async findPosts(pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder, currentUser: UserType | null): Promise<Pagination> {
+    const direction = sortDirection;
 
     let field = "createdAt"
     if (sortBy === "title" || sortBy === "shortDescription" || sortBy === "blogId" || sortBy === "blogName" || sortBy === "content" || sortBy === "blogName") {
@@ -187,7 +187,7 @@ export class PostsRepository {
     return filledPost[0]
   }
 
-  async getCommentsByPostId(postId: string, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null, user: UserType | null): Promise<Pagination> {
+  async getCommentsByPostId(postId: string, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder, user: UserType | null): Promise<Pagination> {
     const filter = {postId: postId}
 
     let foundPost = await MyModelPosts.findOne({id: postId}).lean()
@@ -215,7 +215,7 @@ export class PostsRepository {
     let asc = -1
     let field = "createdAt"
 
-    if (sortDirection === "asc") {
+    if (sortDirection === "asc"|| sortDirection === "ascending" || sortDirection === -1) {
       desc = -1
       asc = 1
     }

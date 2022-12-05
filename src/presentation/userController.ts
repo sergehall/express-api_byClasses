@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import {ioc} from "../IoCContainer";
 import requestIp from "request-ip";
 import {UsersService} from "../domain/users-service";
+import {SortOrder} from "../types/types";
 
 
 export class UsersController {
@@ -16,7 +17,7 @@ export class UsersController {
       const searchLoginTerm: string | null = parseQueryData.searchLoginTerm
       const searchEmailTerm: string | null = parseQueryData.searchEmailTerm
       const sortBy: string | null = parseQueryData.sortBy
-      const sortDirection: string | null = parseQueryData.sortDirection
+      const sortDirection: SortOrder = parseQueryData.sortDirection
 
       const getUsers = await this.usersService.findUsers(searchLoginTerm, searchEmailTerm, pageNumber, pageSize, sortBy, sortDirection)
       return  res.send(getUsers)

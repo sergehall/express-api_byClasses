@@ -1,5 +1,5 @@
 import {ObjectId} from "mongodb";
-
+export type SortOrder = -1 | 1 | "asc" | "ascending" | "desc" | "descending"
 //...............................................Errors
 export type ErrorType = {
   message: string

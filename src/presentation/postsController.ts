@@ -1,7 +1,7 @@
 import {PostsService} from "../domain/posts-service";
 import {Request, Response} from "express";
 import {ioc} from "../IoCContainer";
-import {UserType} from "../types/types";
+import {SortOrder, UserType} from "../types/types";
 
 export class PostsController {
   constructor(protected postsService: PostsService) {
@@ -13,7 +13,7 @@ export class PostsController {
     const pageNumber: number = parseQueryData.pageNumber
     const pageSize: number = parseQueryData.pageSize
     const sortBy: string | null = parseQueryData.sortBy
-    const sortDirection: string | null = parseQueryData.sortDirection
+    const sortDirection: SortOrder = parseQueryData.sortDirection
     const currentUser: UserType | null = req.user
 
     const foundPosts = await this.postsService.findPosts(pageNumber, pageSize, sortBy, sortDirection, currentUser);
@@ -97,7 +97,7 @@ export class PostsController {
       const pageNumber = parseQueryData.pageNumber
       const pageSize = parseQueryData.pageSize
       const sortBy: string | null = parseQueryData.sortBy
-      const sortDirection: string | null = parseQueryData.sortDirection
+      const sortDirection: SortOrder = parseQueryData.sortDirection
       const user: UserType | null = req.user
 
       const getPost = await this.postsService.getCommentsByPostId(postId, pageNumber, pageSize, sortBy, sortDirection, user);

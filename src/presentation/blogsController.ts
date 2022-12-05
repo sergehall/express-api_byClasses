@@ -2,7 +2,7 @@ import {BlogsService} from "../domain/blogs-service";
 import {Request, Response} from "express";
 import {ioc} from "../IoCContainer";
 import {PostsService} from "../domain/posts-service";
-import {UserType} from "../types/types";
+import {SortOrder, UserType} from "../types/types";
 
 
 export class BlogsController {
@@ -15,7 +15,7 @@ export class BlogsController {
     const pageNumber: number = parseQueryData.pageNumber
     const pageSize: number = parseQueryData.pageSize
     const sortBy: string | null = parseQueryData.sortBy
-    const sortDirection: string | null = parseQueryData.sortDirection
+    const sortDirection: SortOrder = parseQueryData.sortDirection
 
 
     const foundBlogs = await this.blogsService.findBlogs(pageNumber, pageSize, sortBy, sortDirection);
@@ -65,7 +65,7 @@ export class BlogsController {
     const pageNumber: number = parseQueryData.pageNumber
     const pageSize: number = parseQueryData.pageSize
     const sortBy: string | null = parseQueryData.sortBy
-    const sortDirection: string | null = parseQueryData.sortDirection
+    const sortDirection: SortOrder = parseQueryData.sortDirection
 
     const allPostsByBlog = await this.blogsService.findAllPostsByBlogId(pageNumber, pageSize, sortBy, sortDirection, blogId, currentUser)
     if (!allPostsByBlog) {

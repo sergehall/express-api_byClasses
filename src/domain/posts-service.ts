@@ -3,7 +3,7 @@ import {
   Pagination,
   PostsType,
   ReturnObjCommentType,
-  ReturnObjPostType,
+  ReturnObjPostType, SortOrder,
   UserType
 } from "../types/types";
 
@@ -13,7 +13,7 @@ export class PostsService {
     this.postsRepository = postsRepository
   }
 
-  async findPosts(pageNumber: number, pageSize: number, sortBy: string| null, sortDirection: string| null, currentUser: UserType | null): Promise<Pagination>{
+  async findPosts(pageNumber: number, pageSize: number, sortBy: string| null, sortDirection: SortOrder, currentUser: UserType | null): Promise<Pagination>{
     return await this.postsRepository.findPosts(pageNumber, pageSize, sortBy, sortDirection, currentUser)
   }
 
@@ -28,7 +28,7 @@ export class PostsService {
   async getPostById(postId: string, user: UserType | null): Promise<PostsType | null >{
     return await this.postsRepository.getPostById(postId, user)
   }
-  async getCommentsByPostId(postId: string, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null, user: UserType | null): Promise<Pagination>{
+  async getCommentsByPostId(postId: string, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder, user: UserType | null): Promise<Pagination>{
     return await this.postsRepository.getCommentsByPostId(postId, pageNumber, pageSize, sortBy, sortDirection, user)
   }
 

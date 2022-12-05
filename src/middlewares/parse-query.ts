@@ -1,4 +1,5 @@
 import {Request} from "express";
+import {SortOrder} from "../types/types";
 
 export class ParseQuery {
   async parse(req: Request) {
@@ -14,7 +15,7 @@ export class ParseQuery {
     let code: string | undefined | null = req.query.code?.toString()
     let confirmationCode: string | undefined | null = req.query.confirmationCode?.toString()
     let sortBy: string | undefined | null = req.query.sortBy?.toString()
-    let sortDirection: string | undefined | null = req.query.sortDirection?.toString()
+    let querySortDirection: any = req.query.sortDirection
 
 
     // default settings for searchNameTer, title, pageNumber, pageSize
@@ -52,8 +53,13 @@ export class ParseQuery {
       sortBy = null
     }
 
-    if (!sortDirection || sortDirection.length === 0) {
-      sortDirection = null
+    const sortOrderArr = [-1, 1, 'descending', 'desc', 'ascending', 'asc']
+    let sortDirection: SortOrder = 1;
+    if (sortOrderArr.includes(querySortDirection)) {
+      sortDirection = querySortDirection;
+    }
+    if (Number(querySortDirection) === -1) {
+      sortDirection = -1;
     }
 
     return {

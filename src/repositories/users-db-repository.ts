@@ -1,7 +1,7 @@
 import {
   EmailConfirmCodeType,
   EmailRecoveryCodeType,
-  Pagination, UserType,
+  Pagination, SortOrder, UserType,
 } from "../types/types";
 import {MyModelUser} from "../mongoose/UsersSchemaModel";
 
@@ -25,7 +25,7 @@ export class UsersRepository {
     return await MyModelUser.updateOne({"accountData.id": user.accountData.id}, {$set: user})
   }
 
-  async findUsers(searchLoginTerm: string | null, searchEmailTerm: string | null, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null): Promise<Pagination> {
+  async findUsers(searchLoginTerm: string | null, searchEmailTerm: string | null, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder): Promise<Pagination> {
 
     const startIndex = (pageNumber - 1) * pageSize
 
@@ -38,7 +38,7 @@ export class UsersRepository {
       filterEmail = {"accountData.email": searchEmailTerm}
     }
 
-    const direction = sortDirection === "desc" ? -1 : 1;
+    const direction = sortDirection;
 
     let field = "createdAt"
     if (sortBy === "accountData.login" || sortBy === "accountData.email") {

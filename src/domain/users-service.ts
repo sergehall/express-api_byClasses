@@ -1,7 +1,7 @@
 import {
   EmailConfirmCodeType,
   EmailRecoveryCodeType,
-  Pagination,
+  Pagination, SortOrder,
   UserType
 } from "../types/types";
 import uuid4 from "uuid4";
@@ -17,7 +17,7 @@ export class UsersService {
   constructor(protected usersRepository: UsersRepository) {
   }
 
-  async findUsers(searchLoginTerm: string | null, searchEmailTerm: string | null, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null): Promise<Pagination> {
+  async findUsers(searchLoginTerm: string | null, searchEmailTerm: string | null, pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder): Promise<Pagination> {
     return await this.usersRepository.findUsers(searchLoginTerm, searchEmailTerm, pageNumber, pageSize, sortBy, sortDirection)
   }
 

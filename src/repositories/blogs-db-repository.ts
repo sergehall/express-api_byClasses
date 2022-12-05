@@ -2,7 +2,7 @@ import {
   ArrayErrorsType,
   BlogsType,
   Pagination, PostsType,
-  ReturnObjBlogType,
+  ReturnObjBlogType, SortOrder,
   UserType
 } from "../types/types";
 import {MyModelBlogs} from "../mongoose/BlogsSchemaModel";
@@ -14,8 +14,8 @@ import {ioc} from "../IoCContainer";
 
 export class BlogsRepository {
 
-  async findBlogs(pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null,): Promise<Pagination> {
-    const direction = sortDirection === "desc" ? 1 : -1;
+  async findBlogs(pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder): Promise<Pagination> {
+    const direction = sortDirection;
 
     let field = "createdAt"
     if (sortBy === "name" || sortBy === "youtubeUrl") {
@@ -62,7 +62,7 @@ export class BlogsRepository {
     }
   }
 
-  async findAllPostsByBlogId(pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: string | null, blogId: string, currentUser: UserType | null): Promise<Pagination | null> {
+  async findAllPostsByBlogId(pageNumber: number, pageSize: number, sortBy: string | null, sortDirection: SortOrder, blogId: string, currentUser: UserType | null): Promise<Pagination | null> {
     // check exist blogger
     if (!await MyModelBlogs.findOne({id: blogId})) {
       return null
@@ -70,7 +70,7 @@ export class BlogsRepository {
     // find all post by blogId
     let filledPosts: PostsType[] = []
     const filterBlogId = {blogId: blogId}
-    const direction = sortDirection === "desc" ? 1 : -1;
+    const direction = sortDirection;
 
     let field = "createdAt"
     if (sortBy === "title" || sortBy === "shortDescription" || sortBy === "blogName" || sortBy === "content" || sortBy === "blogName") {
